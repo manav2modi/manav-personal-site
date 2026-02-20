@@ -51,6 +51,22 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Subtle noise overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -62,6 +78,7 @@
             max-width: 680px;
             margin: 0 auto;
             padding: 80px 24px 120px;
+            position: relative;
         }
 
         /* Header */
@@ -124,6 +141,21 @@
             font-family: 'Newsreader', Georgia, serif;
             color: var(--accent-dim);
             font-style: italic;
+        }
+
+        /* Aside / personality note */
+        .aside {
+            font-family: 'Newsreader', Georgia, serif;
+            font-style: italic;
+            font-size: 14px;
+            color: var(--text-tertiary);
+            margin-top: 20px;
+            padding-left: 14px;
+            border-left: 2px solid var(--border);
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.4s forwards;
+            transition: opacity 0.3s ease;
+            line-height: 1.6;
         }
 
         /* Nav */
@@ -234,6 +266,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .project-badge {
@@ -253,6 +286,15 @@
             font-size: 14px;
             color: var(--text-tertiary);
             line-height: 1.6;
+        }
+
+        .project-aside {
+            font-family: 'Newsreader', Georgia, serif;
+            font-style: italic;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            margin-top: 6px;
+            opacity: 0.7;
         }
 
         .project-meta {
@@ -327,13 +369,6 @@
             margin-bottom: 16px;
         }
 
-        .skill-group-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
         .tags {
             display: flex;
             flex-wrap: wrap;
@@ -349,6 +384,13 @@
             border: 1px solid var(--tag-border);
             border-radius: 5px;
             letter-spacing: 0.01em;
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            color: var(--text-secondary);
+            border-color: var(--border);
+            background: var(--bg-hover);
         }
 
         /* Contact */
@@ -393,6 +435,15 @@
             color: var(--text-tertiary);
             font-family: 'IBM Plex Mono', monospace;
             opacity: 0.6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-right {
+            font-style: italic;
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 12px;
         }
 
         /* Animations */
@@ -446,8 +497,9 @@
             </div>
             <p class="intro">
                 Software engineer and founder. I build <em>mobile apps</em> and <em>AI-powered platforms</em>. 
-                Currently founding <a href="#" style="color: var(--link); text-decoration: none; border-bottom: 1px solid var(--link);">AgentPhone</a> — phone number infrastructure for AI agents — and shipping features at Rokmetro for the Vogue app.
+                Currently founding <a href="#" style="color: var(--link); text-decoration: none; border-bottom: 1px solid var(--link);">AgentPhone</a> (phone number infrastructure for AI agents) and shipping features at Rokmetro for the Vogue app.
             </p>
+            <div class="aside" id="rotating-aside"></div>
             <nav class="nav-links">
                 <a href="#now">now</a>
                 <a href="#projects">projects</a>
@@ -462,7 +514,9 @@
         <section id="now" class="section">
             <div class="section-label">Now</div>
             <div class="now-content">
-                Building <a href="#">AgentPhone</a>, a developer API that gives AI agents their own phone numbers for calls and SMS. Working with my co-founder (and brother) Meet to make phone infrastructure dead simple for the next wave of AI applications. Also shipping production features on the Vogue app at Rokmetro — most recently the Met Gala livestream, which helped the app win a Webby Award.
+                Building <a href="#">AgentPhone</a> with my co-founder (and brother) Meet. We're making phone infrastructure dead simple for the next wave of AI agents. Think: giving every AI its own phone number for calls and SMS, with a clean developer API.
+                <br><br>
+                On the side, still shipping production features on the Vogue app at Rokmetro. Most recently built the Met Gala livestream, which helped the app win a Webby Award. Also watching BoozeBuddy grow on its own, which is fun.
             </div>
         </section>
 
@@ -477,7 +531,7 @@
                             AgentPhone
                             <span class="project-badge">Founder</span>
                         </div>
-                        <div class="project-desc">Developer API providing phone number infrastructure for AI agents. Calls, SMS, and telephony — built for the agentic era.</div>
+                        <div class="project-desc">Developer API providing phone number infrastructure for AI agents. Calls, SMS, and telephony for the agentic era.</div>
                     </div>
                     <div class="project-meta">
                         <a href="#" class="project-link">site →</a>
@@ -490,7 +544,7 @@
                             Vogue App
                             <span class="project-badge">Webby Award</span>
                         </div>
-                        <div class="project-desc">Main contributor on the official Vogue fashion app. Built the Met Gala livestream feature and core functionalities. Recently recognized with a Webby Award.</div>
+                        <div class="project-desc">Main contributor on the official Vogue fashion app. Built the Met Gala livestream feature and core functionalities.</div>
                     </div>
                     <div class="project-meta">
                         <a href="https://apps.apple.com/us/app/vogue-fashion-shopping/id289380413" class="project-link">app store →</a>
@@ -499,8 +553,12 @@
 
                 <div class="project">
                     <div class="project-main">
-                        <div class="project-title">BoozeBuddy</div>
-                        <div class="project-desc">iOS app for tracking alcohol consumption with intuitive logging, progress insights, and HealthKit integration. Live on the App Store.</div>
+                        <div class="project-title">
+                            BoozeBuddy
+                            <span class="project-badge">10K+ downloads</span>
+                        </div>
+                        <div class="project-desc">iOS app for tracking alcohol consumption with intuitive logging and progress insights. 10,000+ downloads and 20+ five-star reviews on the App Store.</div>
+                        <div class="project-aside">Started as a side project. Turns out people want to know how much they drink.</div>
                     </div>
                     <div class="project-meta">
                         <a href="https://apps.apple.com/us/app/boozebuddy-alcohol-tracker/id6745567974" class="project-link">app store →</a>
@@ -512,6 +570,7 @@
                     <div class="project-main">
                         <div class="project-title">Graykea</div>
                         <div class="project-desc">Co-founded an AI-powered personalized giving platform. Raised $100K+ through the University of Illinois Innovation Fund.</div>
+                        <div class="project-aside">Built this during COVID with my childhood best friend.</div>
                     </div>
                     <div class="project-meta">
                         <a href="https://innovate.uif.uillinois.edu/news/2021/09/06/graykea-press-release-childhood-friends-propel-personalized-giving-advancement" class="project-link">press →</a>
@@ -568,7 +627,7 @@
                     <div class="exp-role">Co-Founder · <span class="exp-company">Graykea</span></div>
                     <span class="exp-date">2020 – 2022</span>
                 </div>
-                <div class="exp-desc">AI-powered personalized giving platform. Raised $100K+ in partnership with the University of Illinois system during COVID.</div>
+                <div class="exp-desc">AI-powered personalized giving platform. Raised $100K+ in partnership with the University of Illinois system.</div>
             </div>
         </section>
 
@@ -592,7 +651,6 @@
                     <span class="tag">GCP</span>
                     <span class="tag">Railway</span>
                     <span class="tag">OpenCV</span>
-                    <span class="tag">HealthKit</span>
                     <span class="tag">Git</span>
                 </div>
             </div>
@@ -600,7 +658,10 @@
 
         <!-- Contact -->
         <section id="contact" class="section">
-            <div class="section-label">Contact</div>
+            <div class="section-label">Say hi</div>
+            <p style="font-size: 14px; color: var(--text-tertiary); margin-bottom: 16px; line-height: 1.6;">
+                Always down to talk about building things, AI agents, board games, or whatever's on your mind.
+            </p>
             <div class="contact-grid">
                 <a href="mailto:manav2modi@gmail.com" class="contact-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -622,12 +683,13 @@
         </section>
 
         <footer class="footer">
-            © 2025 Manav Modi
+            <span>&copy; 2025 Manav Modi</span>
+            <span class="footer-right">built with too much coffee</span>
         </footer>
     </div>
 
-    <!-- Scroll-triggered fade-in -->
     <script>
+        // Scroll observer
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -654,6 +716,29 @@
                 }
             });
         });
+
+        // Rotating aside messages
+        const asides = [
+            "I like building things more than talking about building things.",
+            "Originally from India. Currently somewhere in the US with a laptop and a board game collection.",
+            "My brother is also my co-founder. Thanksgiving dinners are basically standups.",
+            "I've shipped apps at 2am more times than I'd like to admit.",
+            "If I'm not coding, I'm probably losing at Catan.",
+            "I think the best products come from people who actually use them.",
+        ];
+
+        const asideEl = document.getElementById('rotating-aside');
+        let currentAside = Math.floor(Math.random() * asides.length);
+        asideEl.textContent = asides[currentAside];
+
+        setInterval(() => {
+            asideEl.style.opacity = '0';
+            setTimeout(() => {
+                currentAside = (currentAside + 1) % asides.length;
+                asideEl.textContent = asides[currentAside];
+                asideEl.style.opacity = '1';
+            }, 300);
+        }, 6000);
     </script>
 </body>
 </html>
